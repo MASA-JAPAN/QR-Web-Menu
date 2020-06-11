@@ -1,15 +1,37 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Router from "next/router";
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-)
-
-export default IndexPage
+export default function IndexPage() {
+  return (
+    <div>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography>QR WEB MENU</Typography>
+          <div className="loginButton">
+            <Button
+              color="inherit"
+              onClick={() =>
+                Router.push({
+                  pathname: "/login",
+                })
+              }
+            >
+              Login
+            </Button>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <style jsx>
+        {`
+          .loginButton {
+            position: absolute;
+            right: 5px;
+          }
+        `}
+      </style>
+    </div>
+  );
+}
