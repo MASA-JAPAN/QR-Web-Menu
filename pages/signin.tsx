@@ -63,21 +63,13 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   React.useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      if (!user) {
+      if (user) {
         Router.push("/");
       }
     });
   });
 
   const classes = useStyles();
-
-  React.useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        Router.push("/");
-      }
-    });
-  });
 
   const authenticateGoogle = () => {
     const authProvider = new firebase.auth.GoogleAuthProvider();
