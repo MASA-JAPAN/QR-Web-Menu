@@ -66,8 +66,12 @@ export default function SignIn() {
       if (user) {
         Router.push("/");
       }
+
+      setLoggedIn(true);
     });
   });
+
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   const classes = useStyles();
 
@@ -105,7 +109,7 @@ export default function SignIn() {
               publicRuntimeConfig.localStorageUserId,
               createdUser.id
             );
-            Router.push("/");
+            Router.push("/mypage");
           });
       } else {
         // if yes, go to home page
@@ -113,10 +117,14 @@ export default function SignIn() {
           publicRuntimeConfig.localStorageUserId,
           foundUser.id
         );
-        Router.push("/");
+        Router.push("/mypage");
       }
     });
   };
+
+  if (!loggedIn) {
+    return null;
+  }
 
   return (
     <div>

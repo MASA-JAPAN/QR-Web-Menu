@@ -15,7 +15,7 @@ export default function IndexPage() {
               color="inherit"
               onClick={() =>
                 Router.push({
-                  pathname: "/login",
+                  pathname: "/signin",
                 })
               }
             >
