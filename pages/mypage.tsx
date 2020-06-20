@@ -11,7 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
-// import withAuth from "../utils/withAuth";
+import IconButton from "@material-ui/core/IconButton";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 function Mypage() {
   React.useEffect(() => {
@@ -37,11 +38,11 @@ function Mypage() {
   }
 
   return (
-    <div>
+    <div className="container">
       <AppBar position="static">
         <Toolbar>
           <Typography>QR WEB MENU</Typography>
-          <div className="loginButton">
+          <div className="logoutButton">
             <Button color="inherit" onClick={signOut}>
               Logout
             </Button>
@@ -49,12 +50,37 @@ function Mypage() {
         </Toolbar>
       </AppBar>
 
-      <div>test</div>
+      <div className="addButton">
+        <IconButton
+          aria-label="AddCircleIcon"
+          color="secondary"
+          onClick={() =>
+            Router.push({
+              pathname: "/new",
+            })
+          }
+        >
+          <AddCircleIcon style={{ fontSize: 50 }} />
+        </IconButton>
+      </div>
+
       <style jsx>
         {`
-          .loginButton {
+          .container {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+          }
+
+          .logoutButton {
             position: absolute;
             right: 5px;
+          }
+
+          .addButton {
+            position: fixed;
+            right: 2px;
+            bottom: 2px;
           }
         `}
       </style>
