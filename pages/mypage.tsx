@@ -30,6 +30,7 @@ function Mypage() {
   const signOut = async () => {
     await auth.signOut();
     localStorage.removeItem(publicRuntimeConfig.localStorageUserId);
+    localStorage.removeItem(publicRuntimeConfig.localStorageDataId);
     Router.push("/");
   };
 

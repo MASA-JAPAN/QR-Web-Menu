@@ -14,6 +14,19 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import Container from "@material-ui/core/Container";
 
+import { firestore, auth } from "../utils/firebaseInit";
+import {
+  fetchDocumentFromCollectionByFieldName,
+  isEmpty,
+} from "../utils/firebaseUtility";
+
+import Router from "next/router";
+
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+
+console.log(publicRuntimeConfig);
+
 const useStyles = makeStyles((theme) => ({
   text: {
     margin: theme.spacing(3, 0, 2),
@@ -39,6 +52,44 @@ const useStyles = makeStyles((theme) => ({
 
 function New() {
   const classes = useStyles();
+
+  const [nameValue, setNameValue] = React.useState<string>("");
+  const [descriptionValue, setDescriptionValue] = React.useState<string>("");
+
+  const handleChangeNameValue = (e: any) => {
+    setNameValue(e.target.value);
+  };
+
+  const handleDescriptionValue = (e: any) => {
+    setDescriptionValue(e.target.value);
+  };
+
+  const saveMenu = () => {
+    console.log(nameValue);
+    console.log(descriptionValue);
+
+    const userId = localStorage.getItem(publicRuntimeConfig.localStorageUserId);
+    const dataId = localStorage.getItem(publicRuntimeConfig.localStorageDataId);
+    console.log(publicRuntimeConfig.localStorageUserId);
+    console.log(publicRuntimeConfig.localStorageDataId);
+    console.log(userId);
+    console.log(dataId);
+
+    if (dataId) {
+      firestore
+        .collection("users")
+        .doc(dataId)
+        .collection("menus")
+        .add({ name: nameValue, description: descriptionValue })
+        .then(function (docRef) {
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        });
+    }
+  };
+
   return (
     <div className="container">
       <AppBar position="static">
@@ -62,6 +113,7 @@ function New() {
             id="Name"
             label="Name"
             name="Name"
+            onChange={handleChangeNameValue}
           />
           <TextField
             variant="outlined"
@@ -72,6 +124,7 @@ function New() {
             name="Description"
             multiline
             rows={4}
+            onChange={handleDescriptionValue}
           />
           <Button
             type="submit"
@@ -79,6 +132,7 @@ function New() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={saveMenu}
           >
             Save
           </Button>

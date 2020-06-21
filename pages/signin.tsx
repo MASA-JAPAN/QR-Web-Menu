@@ -101,20 +101,36 @@ export default function SignIn() {
       if (isEmpty(foundUser)) {
         // it is an empty object
         // add the user to users collection and go to home page
+
         firestore
           .collection("users")
           .add(authUser)
           .then((createdUser) => {
+            console.log(authUser.uid);
+            console.log(createdUser.id);
+
             localStorage.setItem(
               publicRuntimeConfig.localStorageUserId,
+              authUser.uid
+            );
+            localStorage.setItem(
+              publicRuntimeConfig.localStorageDataId,
               createdUser.id
             );
             Router.push("/mypage");
           });
       } else {
         // if yes, go to home page
+
+        console.log(foundUser);
+        console.log(foundUser.id);
+
         localStorage.setItem(
           publicRuntimeConfig.localStorageUserId,
+          foundUser.uid
+        );
+        localStorage.setItem(
+          publicRuntimeConfig.localStorageDataId,
           foundUser.id
         );
         Router.push("/mypage");
