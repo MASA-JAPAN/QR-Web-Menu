@@ -12,7 +12,8 @@ import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
 import IconButton from "@material-ui/core/IconButton";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+
+import NoteAddIcon from "@material-ui/icons/NoteAdd";
 
 function Mypage() {
   React.useEffect(() => {
@@ -53,7 +54,7 @@ function Mypage() {
 
       <div className="addButton">
         <IconButton
-          aria-label="AddCircleIcon"
+          aria-label="NoteAddIcon"
           color="secondary"
           onClick={() =>
             Router.push({
@@ -61,7 +62,7 @@ function Mypage() {
             })
           }
         >
-          <AddCircleIcon style={{ fontSize: 50 }} />
+          <NoteAddIcon style={{ fontSize: 50 }} />
         </IconButton>
       </div>
 
