@@ -10,10 +10,17 @@ import IconButton from "@material-ui/core/IconButton";
 import Box from "@material-ui/core/Box";
 import AddIcon from "@material-ui/icons/Add";
 
-export default function FormDialog() {
+import { uploadFood } from "../utils/firebaseUtility";
+
+export default function FormDialog(props: any) {
   const [open, setOpen] = React.useState(false);
+  const [imgFile, setImgFile] = React.useState<Blob>(null);
+  const [nameValue, setNameValue] = React.useState<string>("");
+  const [descriptionValue, setDescriptionValue] = React.useState<string>("");
   const imgEL = React.useRef<HTMLImageElement>(null);
   const labelEL = React.useRef<HTMLLabelElement>(null);
+
+  console.log(props.id);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,11 +36,30 @@ export default function FormDialog() {
     labelEL.current?.style.setProperty("display", "none");
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = (e: any) => {
       imgEL.current?.setAttribute("src", e.target?.result as string);
     };
 
     reader.readAsDataURL(e.target.files[0]);
+
+    setImgFile(e.target?.files[0]);
+  };
+
+  const handleChangeNameValue = (e: any) => {
+    setNameValue(e.target.value);
+  };
+
+  const handleDescriptionValue = (e: any) => {
+    setDescriptionValue(e.target.value);
+  };
+
+  const handleClickSave = async () => {
+    const dataId = props.dataId;
+    const menuId = props.id;
+
+    if (dataId) {
+      await uploadFood(dataId, menuId, nameValue, descriptionValue, imgFile);
+    }
   };
 
   return (
@@ -80,6 +106,7 @@ export default function FormDialog() {
             label="Name"
             type="text"
             fullWidth
+            onChange={handleChangeNameValue}
           />
           <TextField
             margin="normal"
@@ -89,13 +116,14 @@ export default function FormDialog() {
             fullWidth
             multiline
             rows={4}
+            onChange={handleDescriptionValue}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClickSave} color="primary">
             Save
           </Button>
         </DialogActions>

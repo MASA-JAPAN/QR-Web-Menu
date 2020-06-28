@@ -87,14 +87,20 @@ function isEmpty(obj: object) {
 
 //TODO: set name desc parameters
 
-const uploadFood = async (userDataId: string, id: string, file: any) => {
+const uploadFood = async (
+  userDataId: string,
+  menuId: string,
+  name: string,
+  description: string,
+  file: any
+) => {
   const storageRef = storage.ref();
   const saveImageRef = storageRef.child(`detectedImage/${uuidv4()}`);
 
-  await resizeImage(file, 500, 500).then(async (Blob) => {
-    console.log("aaa");
-
-    await saveImageRef.put(Blob).then(async function (snapshot) {
+  await saveImageRef
+    .child(userDataId)
+    .put(file)
+    .then(async function (snapshot) {
       console.log(snapshot.metadata.fullPath);
 
       await storageRef
@@ -106,8 +112,11 @@ const uploadFood = async (userDataId: string, id: string, file: any) => {
             .collection("users")
             .doc(userDataId)
             .collection("menus")
-            .doc(id)
-            .set({
+            .doc(menuId)
+            .collection("foods")
+            .add({
+              name: name,
+              description: description,
               url: url,
               createdDate:
                 String(now.getFullYear()) +
@@ -135,7 +144,6 @@ const uploadFood = async (userDataId: string, id: string, file: any) => {
           console.error("Error deleting storage: ", error);
         });
     });
-  });
 };
 
 function resizeImage(
@@ -146,6 +154,7 @@ function resizeImage(
   return new Promise((resolve, reject) => {
     let image = new Image();
     image.src = URL.createObjectURL(file);
+
     image.onload = () => {
       let width = image.width;
       let height = image.height;
@@ -190,5 +199,6 @@ export {
   fetchCollectionDocs,
   fetchDocumentFromCollection,
   fetchDocumentFromCollectionByFieldName,
+  uploadFood,
   isEmpty,
 };

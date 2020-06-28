@@ -1,3 +1,5 @@
+//TODO: change file's name
+
 import React from "react";
 
 //AppBar
@@ -23,6 +25,11 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { spacing } from "@material-ui/system";
 import Box from "@material-ui/core/Box";
 
+import FormDialog from "../../components/FormDialog";
+
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -42,10 +49,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function Edit() {
+function Edit(props: any) {
   const classes = useStyles();
+  console.log(props.id);
 
   const [tileData, setTileData] = React.useState<object[]>([{}]);
+  const [dataId, setDataId] = React.useState<string>("");
+
+  React.useEffect(() => {
+    setDataId(
+      localStorage.getItem(publicRuntimeConfig.localStorageDataId) as string
+    );
+  }, []);
 
   return (
     <div className="container">
@@ -89,6 +104,8 @@ function Edit() {
         </Container>
       </Box>
 
+      <FormDialog id={props.id} dataId={dataId} />
+
       <style jsx>{``}</style>
     </div>
   );
@@ -99,7 +116,7 @@ Edit.getInitialProps = async ({ query }: { query: any }) => {
   console.log(id);
   console.log(query);
 
-  return { values: "test" };
+  return { id: query?.id };
 };
 
 export default Edit;
