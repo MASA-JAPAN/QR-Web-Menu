@@ -95,10 +95,9 @@ const uploadFood = async (
   file: any
 ) => {
   const storageRef = storage.ref();
-  const saveImageRef = storageRef.child(`detectedImage/${uuidv4()}`);
 
-  await saveImageRef
-    .child(userDataId)
+  await storageRef
+    .child(`foodImage/${userDataId}/${menuId}`)
     .put(file)
     .then(async function (snapshot) {
       console.log(snapshot.metadata.fullPath);
@@ -114,7 +113,8 @@ const uploadFood = async (
             .collection("menus")
             .doc(menuId)
             .collection("foods")
-            .add({
+            .doc(name)
+            .set({
               name: name,
               description: description,
               url: url,

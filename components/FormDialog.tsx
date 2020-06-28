@@ -14,7 +14,7 @@ import { uploadFood } from "../utils/firebaseUtility";
 
 export default function FormDialog(props: any) {
   const [open, setOpen] = React.useState(false);
-  const [imgFile, setImgFile] = React.useState<Blob>(null);
+  const [imgFile, setImgFile] = React.useState<Blob>();
   const [nameValue, setNameValue] = React.useState<string>("");
   const [descriptionValue, setDescriptionValue] = React.useState<string>("");
   const imgEL = React.useRef<HTMLImageElement>(null);
