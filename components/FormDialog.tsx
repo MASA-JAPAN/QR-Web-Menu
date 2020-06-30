@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import Box from "@material-ui/core/Box";
 import AddIcon from "@material-ui/icons/Add";
@@ -60,13 +61,19 @@ export default function FormDialog(props: any) {
     if (dataId) {
       await uploadFood(dataId, menuId, nameValue, descriptionValue, imgFile);
     }
+
+    handleClose();
   };
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
+      <IconButton
+        aria-label="AddCircleIcon"
+        color="secondary"
+        onClick={handleClickOpen}
+      >
+        <AddCircleIcon style={{ fontSize: 50 }} />
+      </IconButton>
       <Dialog
         open={open}
         onClose={handleClose}

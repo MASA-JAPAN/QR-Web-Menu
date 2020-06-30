@@ -18,7 +18,7 @@ import InfoIcon from "@material-ui/icons/Info";
 
 import Container from "@material-ui/core/Container";
 
-import { firestore, auth } from "../utils/firebaseInit";
+import { firestore, auth } from "../../utils/firebaseInit";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
@@ -29,6 +29,8 @@ import FormDialog from "../../components/FormDialog";
 
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
+
+const axios = require("axios").default;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,9 +59,54 @@ function Edit(props: any) {
   const [dataId, setDataId] = React.useState<string>("");
 
   React.useEffect(() => {
-    setDataId(
-      localStorage.getItem(publicRuntimeConfig.localStorageDataId) as string
-    );
+    const tmpDataId = localStorage.getItem(
+      publicRuntimeConfig.localStorageDataId
+    ) as string;
+
+    setDataId(tmpDataId);
+
+    // const queries = { userDataId: "JKgKxkYy5PmJn1b4PXwe", menuId: "testmenu" };
+    // axios
+    //   .get("/api/foods", { params: queries })
+    //   .then((res: any) => {
+    //     console.log(res.data[0].id);
+    //   })
+    //   .catch((error: any) => {
+    //     console.log(error, queries);
+    //   });
+
+    console.log(tmpDataId);
+    console.log(props.id);
+
+    //TODO: solve error "Permission denied. Could not perform this operation"
+    const getTileDatas = async (): Promise<Object[]> => {
+      let tmpTileData: Object[] = new Array();
+
+      await firestore
+        .collection("users")
+        .doc(tmpDataId)
+        .collection("menus")
+        .doc(props.id)
+        .collection("foods")
+        .get()
+        .then((docs: any) => {
+          docs.forEach((doc: any) => {
+            console.log(doc.data());
+            tmpTileData.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+        });
+
+      return tmpTileData;
+    };
+
+    getTileDatas().then((tileDatas: any) => {
+      setTileData(tileDatas);
+    });
+
+    console.log("tmpTileData:" + getTileDatas());
   }, []);
 
   return (
@@ -97,14 +144,10 @@ function Edit(props: any) {
             </GridList>
           </div>
           <Box position="fixed" right={2} bottom={2}>
-            <IconButton aria-label="AddCircleIcon" color="secondary">
-              <AddCircleIcon style={{ fontSize: 50 }} />
-            </IconButton>
+            <FormDialog id={props.id} dataId={dataId} />
           </Box>
         </Container>
       </Box>
-
-      <FormDialog id={props.id} dataId={dataId} />
 
       <style jsx>{``}</style>
     </div>

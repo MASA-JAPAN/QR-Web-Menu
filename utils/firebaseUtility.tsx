@@ -85,8 +85,6 @@ function isEmpty(obj: object) {
   return obj.constructor === Object && Object.keys(obj).length === 0;
 }
 
-//TODO: set name desc parameters
-
 const uploadFood = async (
   userDataId: string,
   menuId: string,
@@ -115,9 +113,9 @@ const uploadFood = async (
             .collection("foods")
             .doc(name)
             .set({
-              name: name,
+              title: name,
               description: description,
-              url: url,
+              img: url,
               createdDate:
                 String(now.getFullYear()) +
                 "-" +
