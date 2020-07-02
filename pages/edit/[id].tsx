@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     gridList: {
       width: 500,
-      height: 450,
+      height: "100%",
     },
     icon: {
       color: "rgba(255, 255, 255, 0.54)",
@@ -110,19 +110,16 @@ function Edit(props: any) {
 
   return (
     <div className="container">
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography>QR WEB MENU</Typography>
         </Toolbar>
       </AppBar>
 
-      <Box mt={1}>
+      <Box mt={8}>
         <Container component="main" maxWidth="xs">
           <div className={classes.root}>
             <GridList cellHeight={180} className={classes.gridList}>
-              <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
-                <ListSubheader component="div">December</ListSubheader>
-              </GridListTile>
               {tileData.map((tile: any) => (
                 <GridListTile key={tile.img}>
                   <img src={tile.img} alt={tile.title} />
@@ -148,7 +145,13 @@ function Edit(props: any) {
         </Container>
       </Box>
 
-      <style jsx>{``}</style>
+      <style jsx>{`
+        .container {
+          position: relative;
+          height: 100vh;
+          width: 100vw;
+        }
+      `}</style>
     </div>
   );
 }
