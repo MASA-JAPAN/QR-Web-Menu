@@ -78,7 +78,6 @@ function Edit(props: any) {
     console.log(tmpDataId);
     console.log(props.id);
 
-    //TODO: solve error "Permission denied. Could not perform this operation"
     const getTileDatas = async (): Promise<Object[]> => {
       let tmpTileData: Object[] = new Array();
 

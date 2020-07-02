@@ -95,7 +95,7 @@ const uploadFood = async (
   const storageRef = storage.ref();
 
   await storageRef
-    .child(`foodImage/${userDataId}/${menuId}`)
+    .child(`foodImage/${userDataId}/${menuId}/${name}`)
     .put(file)
     .then(async function (snapshot) {
       console.log(snapshot.metadata.fullPath);
