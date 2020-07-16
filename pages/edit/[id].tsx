@@ -27,6 +27,8 @@ import Box from "@material-ui/core/Box";
 
 import FormDialog from "../../components/FormDialog";
 
+import EditIcon from "@material-ui/icons/Edit";
+
 import getConfig from "next/config";
 const { publicRuntimeConfig } = getConfig();
 
@@ -57,6 +59,9 @@ function Edit(props: any) {
 
   const [tileData, setTileData] = React.useState<object[]>([{}]);
   const [dataId, setDataId] = React.useState<string>("");
+  const [dataRef, setDataRef] = React.useState<
+    firebase.firestore.DocumentData
+  >();
 
   React.useEffect(() => {
     const tmpDataId = localStorage.getItem(
@@ -77,6 +82,15 @@ function Edit(props: any) {
 
     console.log(tmpDataId);
     console.log(props.id);
+
+    setDataRef(
+      firestore
+        .collection("users")
+        .doc(tmpDataId)
+        .collection("menus")
+        .doc(props.id)
+        .collection("foods")
+    );
 
     const getTileDatas = async (): Promise<Object[]> => {
       let tmpTileData: Object[] = new Array();
@@ -121,20 +135,15 @@ function Edit(props: any) {
           <div className={classes.root}>
             <GridList cellHeight={180} className={classes.gridList}>
               {tileData.map((tile: any) => (
-                <GridListTile key={tile.img}>
+                <GridListTile key={tile.title}>
+                  <Box position="absolute" right={2} top={2} zIndex={100}>
+                    <IconButton aria-label="EditIcon" color="secondary">
+                      <EditIcon />
+                    </IconButton>
+                  </Box>
+
                   <img src={tile.img} alt={tile.title} />
-                  <GridListTileBar
-                    title={tile.title}
-                    subtitle={<span>by: {tile.author}</span>}
-                    actionIcon={
-                      <IconButton
-                        aria-label={`info about ${tile.title}`}
-                        className={classes.icon}
-                      >
-                        <InfoIcon />
-                      </IconButton>
-                    }
-                  />
+                  <GridListTileBar title={tile.title} />
                 </GridListTile>
               ))}
             </GridList>
