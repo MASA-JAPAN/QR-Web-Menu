@@ -26,6 +26,7 @@ import { spacing } from "@material-ui/system";
 import Box from "@material-ui/core/Box";
 
 import FormDialog from "../../components/FormDialog";
+import EditDialog from "../../components/EditDialog";
 
 import EditIcon from "@material-ui/icons/Edit";
 
@@ -137,9 +138,7 @@ function Edit(props: any) {
               {tileData.map((tile: any) => (
                 <GridListTile key={tile.title}>
                   <Box position="absolute" right={2} top={2} zIndex={100}>
-                    <IconButton aria-label="EditIcon" color="secondary">
-                      <EditIcon />
-                    </IconButton>
+                    <EditDialog tile={tile} dataRef={dataRef} />
                   </Box>
 
                   <img src={tile.img} alt={tile.title} />
