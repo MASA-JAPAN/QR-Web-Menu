@@ -14,6 +14,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { uploadFood } from "../utils/firebaseUtility";
 
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function FormDialog(props: any) {
   const [open, setOpen] = React.useState(false);
@@ -79,6 +80,14 @@ export default function FormDialog(props: any) {
     handleClose();
   };
 
+  const handleClickDelete = async () => {
+    if (dataRef) {
+      dataRef.doc(props.tile.id).delete();
+    }
+
+    handleClose();
+  };
+
   return (
     <div>
       <IconButton
@@ -93,7 +102,13 @@ export default function FormDialog(props: any) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">New Food</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Food</DialogTitle>
+        <Box position="absolute" right={0} top={0}>
+          <IconButton aria-label="DeleteCircleIcon" onClick={handleClickDelete}>
+            <DeleteIcon style={{ color: "red" }} fontSize="large" />
+          </IconButton>
+        </Box>
+
         <DialogContent>
           <Box
             display="flex"

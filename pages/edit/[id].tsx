@@ -58,7 +58,7 @@ function Edit(props: any) {
   const classes = useStyles();
   console.log(props.id);
 
-  const [tileData, setTileData] = React.useState<object[]>([{}]);
+  const [tileData, setTileData] = React.useState<object[]>([{ id: null }]);
   const [dataId, setDataId] = React.useState<string>("");
   const [dataRef, setDataRef] = React.useState<
     firebase.firestore.DocumentData
@@ -136,7 +136,7 @@ function Edit(props: any) {
           <div className={classes.root}>
             <GridList cellHeight={180} className={classes.gridList}>
               {tileData.map((tile: any) => (
-                <GridListTile key={tile.title}>
+                <GridListTile key={tile.id}>
                   <Box position="absolute" right={2} top={2} zIndex={100}>
                     <EditDialog tile={tile} dataRef={dataRef} />
                   </Box>
