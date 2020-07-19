@@ -1,3 +1,4 @@
 node_modules
 .next
 .env
+pages/api/foods/index.ts

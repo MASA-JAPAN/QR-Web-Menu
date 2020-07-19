@@ -28,7 +28,7 @@ export default function FormDialog(props: any) {
     firebase.firestore.DocumentData
   >();
 
-  console.log(props.dataRef);
+  console.log(props.tile.id);
 
   React.useEffect(() => {
     setDataRef(props.dataRef);
@@ -70,7 +70,7 @@ export default function FormDialog(props: any) {
     const menuId = props.tile.id;
 
     if (dataRef) {
-      dataRef.doc(props.tile.title).update({
+      dataRef.doc(props.tile.id).update({
         title: nameValue,
         description: descriptionValue,
       });

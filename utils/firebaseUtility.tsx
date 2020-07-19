@@ -111,8 +111,7 @@ const uploadFood = async (
             .collection("menus")
             .doc(menuId)
             .collection("foods")
-            .doc(name)
-            .set({
+            .add({
               title: name,
               description: description,
               img: url,

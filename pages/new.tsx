@@ -80,11 +80,10 @@ function New() {
         .collection("users")
         .doc(dataId)
         .collection("menus")
-        .doc(nameValue)
-        .set({ description: descriptionValue })
+        .add({ menuName: nameValue, description: descriptionValue })
         .then(function (docRef) {
-          console.log("Document written with ID: ", nameValue);
-          Router.push(`/edit/${nameValue}`);
+          console.log("Document written with ID: ", docRef.id);
+          Router.push(`/edit/${docRef.id}`);
         })
         .catch(function (error) {
           console.error("Error adding document: ", error);
