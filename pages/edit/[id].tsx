@@ -27,6 +27,7 @@ import Box from "@material-ui/core/Box";
 
 import FormDialog from "../../components/FormDialog";
 import EditDialog from "../../components/EditDialog";
+import DetailDialog from "../../components/DetailDialog";
 
 import EditIcon from "@material-ui/icons/Edit";
 
@@ -142,7 +143,10 @@ function Edit(props: any) {
                   </Box>
 
                   <img src={tile.img} alt={tile.title} />
-                  <GridListTileBar title={tile.title} />
+                  <GridListTileBar
+                    title={tile.title}
+                    actionIcon={<DetailDialog tile={tile} dataRef={dataRef} />}
+                  />
                 </GridListTile>
               ))}
             </GridList>
