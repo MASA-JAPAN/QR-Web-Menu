@@ -1,5 +1,5 @@
 import React from "react";
-import { auth } from "../utils/firebaseInit";
+import { firestore, auth } from "../utils/firebaseInit";
 import Router from "next/router";
 
 //AppBar
@@ -15,7 +15,14 @@ import IconButton from "@material-ui/core/IconButton";
 
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 
+import MenuList from "../components/MenuList";
+
+import Box from "@material-ui/core/Box";
+
 function Mypage() {
+  const [dataId, setDataId] = React.useState<string>("");
+  const [tileData, setTileData] = React.useState<object[]>([{ id: null }]);
+
   React.useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (!user) {
@@ -24,7 +31,38 @@ function Mypage() {
 
       setLoggedIn(true);
     });
-  });
+
+    const tmpDataId = localStorage.getItem(
+      publicRuntimeConfig.localStorageDataId
+    ) as string;
+
+    setDataId(tmpDataId);
+
+    const getMenuDatas = async (): Promise<Object[]> => {
+      let tmpMenuData: Object[] = new Array();
+
+      await firestore
+        .collection("users")
+        .doc(tmpDataId)
+        .collection("menus")
+        .get()
+        .then((docs: any) => {
+          docs.forEach((doc: any) => {
+            console.log(doc.data());
+            tmpMenuData.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+        });
+
+      return tmpMenuData;
+    };
+
+    getMenuDatas().then((tileDatas: any) => {
+      setTileData(tileDatas);
+    });
+  }, []);
 
   const [loggedIn, setLoggedIn] = React.useState(false);
 
@@ -51,6 +89,9 @@ function Mypage() {
           </div>
         </Toolbar>
       </AppBar>
+      <Box mt={1}>
+        <MenuList menuDatas={tileData} />
+      </Box>
 
       <div className="addButton">
         <IconButton
