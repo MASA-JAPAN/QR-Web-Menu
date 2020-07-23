@@ -132,7 +132,9 @@ function Edit(props: any) {
     <div className="container">
       <AppBar position="fixed">
         <Toolbar>
-          <Typography>QR WEB MENU</Typography>
+          <Typography onClick={() => Router.push("/mypage")}>
+            QR WEB MENU
+          </Typography>
           <Box position="absolute" right={0}>
             <IconButton
               color="secondary"
