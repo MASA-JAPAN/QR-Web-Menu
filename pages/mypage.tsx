@@ -21,7 +21,7 @@ import Box from "@material-ui/core/Box";
 
 function Mypage() {
   const [dataId, setDataId] = React.useState<string>("");
-  const [tileData, setTileData] = React.useState<object[]>([{ id: null }]);
+  const [tileData, setTileData] = React.useState<object[]>([]);
 
   React.useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -89,9 +89,7 @@ function Mypage() {
           </div>
         </Toolbar>
       </AppBar>
-      <Box mt={1}>
-        <MenuList menuDatas={tileData} />
-      </Box>
+      <Box mt={1}>{tileData && <MenuList menuDatas={tileData} />}</Box>
 
       <div className="addButton">
         <IconButton
