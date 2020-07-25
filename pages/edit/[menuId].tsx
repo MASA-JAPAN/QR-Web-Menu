@@ -1,5 +1,3 @@
-//TODO: change file's name
-
 import React from "react";
 
 //AppBar
@@ -47,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Edit(props: any) {
   const classes = useStyles();
-  console.log(props.id);
+  console.log(props.menuId);
 
   const [tileData, setTileData] = React.useState<object[]>([]);
   const [dataId, setDataId] = React.useState<string>("");
@@ -63,14 +61,14 @@ function Edit(props: any) {
     setDataId(tmpDataId);
 
     console.log(tmpDataId);
-    console.log(props.id);
+    console.log(props.menuId);
 
     setDataRef(
       firestore
         .collection("users")
         .doc(tmpDataId)
         .collection("menus")
-        .doc(props.id)
+        .doc(props.menuId)
         .collection("foods")
     );
 
@@ -81,7 +79,7 @@ function Edit(props: any) {
         .collection("users")
         .doc(tmpDataId)
         .collection("menus")
-        .doc(props.id)
+        .doc(props.menuId)
         .collection("foods")
         .get()
         .then((docs: any) => {
@@ -116,7 +114,7 @@ function Edit(props: any) {
               color="secondary"
               aria-label="open"
               component="span"
-              onClick={() => window.open(`/menu/${props.id}`, "_blank")}
+              onClick={() => window.open(`/menu/${props.menuId}`, "_blank")}
             >
               <OpenInBrowserIcon />
             </IconButton>
@@ -129,7 +127,7 @@ function Edit(props: any) {
           <FoodList
             tileData={tileData}
             dataRef={dataRef}
-            id={props.id}
+            id={props.menuId}
             dataId={dataId}
             edit={true}
           />
@@ -148,11 +146,7 @@ function Edit(props: any) {
 }
 
 Edit.getInitialProps = async ({ query }: { query: any }) => {
-  const id = query?.id;
-  console.log(id);
-  console.log(query);
-
-  return { id: query?.id };
+  return { menuId: query?.menuId };
 };
 
 export default Edit;
