@@ -14,6 +14,7 @@ import { firestore, auth } from "../../utils/firebaseInit";
 import Box from "@material-ui/core/Box";
 
 import OpenInBrowserIcon from "@material-ui/icons/OpenInBrowser";
+import BlurLinearIcon from "@material-ui/icons/BlurLinear";
 
 import Router from "next/router";
 
@@ -110,6 +111,15 @@ function Edit(props: any) {
             QR WEB MENU
           </Typography>
           <Box position="absolute" right={0}>
+            <IconButton
+              color="secondary"
+              aria-label="open"
+              component="span"
+              onClick={() => window.open(`/qrcode/${props.menuId}`, "_blank")}
+            >
+              <BlurLinearIcon />
+            </IconButton>
+
             <IconButton
               color="secondary"
               aria-label="open"
